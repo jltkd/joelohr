@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AtBat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AtBatController extends Controller
 {
@@ -14,7 +15,17 @@ class AtBatController extends Controller
      */
     public function index()
     {
-        //
+        $atbats = AtBat::orderByDesc('date')->get();
+        $ab = $atbats->count();
+        $balls = DB::table('at_bats')->pluck('balls')->sum();
+        $strikes = DB::table('at_bats')->pluck('strikes')->sum();
+        $homeruns = DB::table('at_bats')->where('outcome', '=', 'Home Run')->count();
+        $singles = DB::table('at_bats')->where('outcome', '=', 'Single')->count();
+        $doubles = DB::table('at_bats')->where('outcome', '=', 'Double')->count();
+        $triples = DB::table('at_bats')->where('outcome', '=', 'Triple')->count();
+        $hits = $singles + $doubles + $triples + $homeruns;
+        $ba = $hits / $ab;
+        return view('atbat.index', compact('atbats', 'ab', 'balls', 'strikes', 'outcome', 'homeruns', 'hits', 'ba'));
     }
 
     /**
