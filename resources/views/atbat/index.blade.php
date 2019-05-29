@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 mt-5">
-                <h1>Kailee</h1>
+                <h1>Kailee's Batting</h1>
             </div>
         </div>
         <div class="row">
